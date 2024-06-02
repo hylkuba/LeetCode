@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include <set>
+#include <unordered_set>
+#include <algorithm>
 
 /**
  * @brief Given a string s, find the length of the longest 
@@ -34,36 +35,26 @@ s consists of English letters, digits, symbols and spaces.
 class Solution {
 public:
     int lengthOfLongestSubstring(std::string s) {
-        size_t stringLength = s.length();
-        size_t currPivot = 0;
-        size_t longestSubstring = 0;
-
-        std::set<char> usedCharacters;
-
-        while(currPivot < stringLength) {
-            // Start sequence from the current pivot
-            size_t i = currPivot;
-            size_t currLength = 0;
-            while(i < stringLength) {
-                // If the character is not in the set, add it
-                if(usedCharacters.find(s[i]) == usedCharacters.end()) {
-                    usedCharacters.insert(s[i]);
-                    currLength++;
-                } else {
-                    break;
+        int maxLength = 0, left = 0;
+        int stringLength = s.length();
+        
+        std::unordered_set<char> charSet;
+        
+        // Sliding window approach
+        for (int i = 0; i < stringLength; i++) {
+            if(charSet.count(s[i]) == 0) {
+                charSet.insert(s[i]);
+                maxLength = std::max(maxLength, i - left + 1);
+            } else {
+                while (charSet.count(s[i])) {
+                    charSet.erase(s[left]);
+                    left++;
                 }
-                i++;
+                charSet.insert(s[i]);
             }
-            if(currLength > longestSubstring) {
-                longestSubstring = currLength;
-            }
-
-            usedCharacters.clear();
-
-            currPivot++;
         }
-
-        return longestSubstring;
+    
+        return maxLength;
     }
 };
 
