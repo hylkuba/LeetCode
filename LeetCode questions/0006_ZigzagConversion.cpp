@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include <map>
+#include <list>
+#include <vector>
 
 /**
  * @brief The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
@@ -45,65 +46,31 @@ s consists of English letters (lower-case and upper-case), ',' and '.'.
 class Solution {
 public:
     std::string convert(std::string s, int numRows) {
-        if(numRows == 1) {
+        if (numRows <= 1) {
             return s;
         }
-        
-        std::map<TPos, char> zigzag;
+        std::vector<std::string> list(numRows, "");
+        int currentLine = 0;
+        bool reachedEdge = true;
 
-        size_t stringIndex = 0;
-        int rowIndex = 0;
-        int colIndex = 0;
-        bool zagging = false;
-
-        while(stringIndex < s.size()) {
-
-            zigzag[{rowIndex, colIndex}] = s[stringIndex];
-
-            if(zagging) {
-                colIndex++;
-                rowIndex--;
+        for (size_t i = 0; i < s.length(); ++i) {
+            if (currentLine == 0 || currentLine == numRows - 1) {
+                reachedEdge = !reachedEdge;
+            }
+            list.at(currentLine) += s.at(i);
+            if (!reachedEdge) {
+                currentLine++;
             } else {
-                rowIndex++;
-            }
-
-            // Check for zagging
-            if(rowIndex == numRows - 1) {
-                zagging = true;
-            } else if(rowIndex == 0) {
-                zagging = false;
-            }
-
-            // Increase string index for next iteration
-            stringIndex++;
-        }
-
-        // Return the string
-        std::string result = "";
-
-        for(int i = 0; i < numRows; i++) {
-            for(int j = 0; j <= colIndex; j++) {
-                if(zigzag.find({i, j}) != zigzag.end()) {
-                    result += zigzag[{i, j}];
-                }
+                currentLine--;
             }
         }
 
+        std::string result;
+        for (int i = 0; i < numRows; ++i) {
+            result += list.at(i);
+        }
         return result;
     }
-
-private:
-    struct TPos {
-        int row;
-        int col;
-
-        bool operator<(const TPos& other) const {
-            if (col == other.col) {
-                return row < other.row;
-            }
-            return col < other.col;
-        }
-    };
 };
 
 int main(void) {
