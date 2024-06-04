@@ -96,26 +96,31 @@ public:
     int myAtoi(std::string s) {
         long long result = 0;
         int sign = 1;
-        size_t i = 0;
+        int i = 0;
 
         // Skip leading whitespaces
-        while (i < s.size() && s[i] == ' ') {
+        while (i < s.length() && s[i] == ' ') {
             i++;
         }
 
         // Check for sign
-        if (i < s.size() && (s[i] == '-' || s[i] == '+')) {
-            sign = (s[i++] == '-') ? -1 : 1;
+        if (i < s.length() && (s[i] == '-' || s[i] == '+')) {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
         }
 
         // Convert string to integer
-        while (i < s.size() && isdigit(s[i])) {
-            result = result * 10 + (s[i++] - '0');
+        while (i < s.length() && isdigit(s[i])) {
+            result = result * 10 + (s[i] - '0');
+
+            std::cout << result << std::endl;
 
             // Check for overflow
             if (result > INT_MAX) {
                 return (sign == 1) ? INT_MAX : INT_MIN;
             }
+
+            i++;
         }
 
         return result * sign;
@@ -124,7 +129,7 @@ public:
 
 int main(void) {
     Solution sol;
-    std::string s = "42";
+    std::string s = "-91283472332";
     int myAtoi = sol.myAtoi(s);
 
     // Print the result
