@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <set>
 #include <algorithm>
 
 /**
@@ -43,43 +43,34 @@ Constraints:
 class Solution {
 public:
     std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+        int target = 0;
+        sort(nums.begin(), nums.end());
 
-        std::vector<std::vector<int>> result;
-        std::sort(nums.begin(), nums.end());
+        std::set<std::vector<int>> s;
+        std::vector<std::vector<int>> output;
 
-        /*for (const auto &num : nums) {
-            std::cout << num << std::endl;
-        }
-        std::cout << std::endl;*/
+        for (int i = 0; i < nums.size(); i++) {
+            int j = i + 1;
+            int k = nums.size() - 1;
 
-        auto it = nums.begin();
-        auto it2 = nums.end();
-        it2--;
-
-        while (it != it2) {
-            int x = *it;
-            int y = *it2;
-        
-            int z = -(x+y);
-            
-            //std::cout << "x: " << x << " y: " << y << " z: " << z << std::endl;
-
-            auto it3 = std::find(it + 1, it2, z);
-            if(it3 != it2) {
-                std::vector<int> temp = {x, y, z};
-                std::sort(temp.begin(), temp.end());
-                
-                result.push_back(temp);
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == target) {
+                    s.insert({nums[i], nums[j], nums[k]});
+                    j++;
+                    k--;
+                } else if (sum < target) {
+                    j++;
+                } else {
+                    k--;
+                }
             }
-
-            it++;
-            if(it == it2) {
-                break;
-            }
-            it2--;
         }
 
-        return result;
+        for(auto triplets : s) {
+            output.push_back(triplets);
+        }
+        return output;
     }
 };
 
