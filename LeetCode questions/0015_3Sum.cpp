@@ -43,34 +43,46 @@ Constraints:
 class Solution {
 public:
     std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
-        int target = 0;
-        sort(nums.begin(), nums.end());
+        
+        std::vector<std::vector<int>> result;
 
-        std::set<std::vector<int>> s;
-        std::vector<std::vector<int>> output;
+        if (nums.size() < 3) {
+            return result;
+        }
 
-        for (int i = 0; i < nums.size(); i++) {
-            int j = i + 1;
-            int k = nums.size() - 1;
+        std::sort(nums.begin(), nums.end());
 
-            while (j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
-                if (sum == target) {
-                    s.insert({nums[i], nums[j], nums[k]});
-                    j++;
-                    k--;
-                } else if (sum < target) {
-                    j++;
-                } else {
-                    k--;
+        // We need 3 indexes to keep track of the 3 numbers
+        // I will be the 1st index and for each I, we have to find 2 other indexes
+        for (size_t i = 0; i < nums.size() - 2; ++i) {
+            
+            // Skip duplicates and perform for each iteration
+            if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
+                
+                size_t low = i + 1;
+                size_t high = nums.size() - 1;
+                int sum = 0 - nums[i];
+
+
+                while (low < high) {
+                    if (nums[low] + nums[high] == sum) {
+                        result.push_back({nums[i], nums[low], nums[high]});
+
+                        // Skip duplicates
+                        while (low < high && nums[low] == nums[low + 1]) low++;
+                        while (low < high && nums[high] == nums[high - 1]) high--;
+
+                        low++;
+                        high--;
+                    } else if (nums[low] + nums[high] > sum) {
+                        high--;
+                    } else {
+                        low++;
+                    }
                 }
             }
         }
-
-        for(auto triplets : s) {
-            output.push_back(triplets);
-        }
-        return output;
+        return result;
     }
 };
 
