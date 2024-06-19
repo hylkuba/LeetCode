@@ -41,45 +41,56 @@ public:
 
         std::sort(nums.begin(), nums.end());
 
+        // Array is sorted, so in case the sum of first three elements is greater than target
+        // return the sum, because all other sums will be greater than this
         int ans = nums[0] + nums[1] + nums[2];
         if(ans >= target) {
             return ans;
         }
 
+        // Array is sorted, so in case the sum of last three elements is less than target
+        // return the sum, because all other sums will be less than this
         int max = nums[len - 1] + nums[len - 2] + nums[len - 3];
         if(max <= target) {
             return max;
         }
 
-        int last = nums[0];
-        int left, right, sum, num;
+        int previous = nums[0];
+        int left, right, sum;
         int dist = abs(ans - target);
-        int i = 0;
 
-        for(; i < len - 2; i++) {
-            if (i && nums[i] == last) {
+        for(int i = 0; i < len - 2; i++) {
+
+            if (i && (nums[i] == previous)) {
                 continue;
             }
-            last = num = nums[i];
+
+            previous = nums[i];
             left = i + 1;
             right = len - 1;
+
+            // Move indexes "left" and "right" towards each other to find the sum closest to "target"
             while(left < right) {
-                sum = num + nums[left] + nums[right];
+                sum = nums[i] + nums[left] + nums[right];
+
                 if (sum == target) {
                     return sum;
                 }
+
+                // If the current sum is closer to the target than the previous closest sum, update the closest sum
                 if(abs(sum - target) < dist) {
                     ans = sum;
                     dist = abs(ans - target);
                 }
                 
+                // Move indexes "left" or "right" towards each other if there are duplicate numbers
                 if(sum < target) { 
-                    while(left < right && nums[left] == nums[left + 1]) {
+                    while((left < right) && (nums[left] == nums[left + 1])) {
                         left++;
                     }
                     left++;
                 } else {
-                    while(left < right && nums[right] == nums[right - 1]) {
+                    while((left < right) && (nums[right] == nums[right - 1])) {
                         right--;
                     }
                     right--;
