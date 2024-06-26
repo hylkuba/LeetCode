@@ -35,6 +35,18 @@ public:
     int climbStairs(int n) {
         int ways = 1;
 
+        /**
+         * @brief Base Case Handling: The variable ways is initialized to 1, which accounts for the base case where n is 0 or 1. In such cases, there is only one way to climb the stairs (either no steps or one step).
+
+Loop Through Combinations: The outer loop iterates from 1 to n/2. This is because the maximum number of 2-steps (pairs of steps) one can take is n/2 (when n is even). When n is odd, one less 2-step can be taken, and the remaining will be 1-steps.
+
+Calculate Ways Using Combinatorics: For each possible number of 2-steps i, the inner loop calculates the number of ways to arrange these 2-steps among the remaining 1-steps. This is essentially calculating the binomial coefficient (C(n - i, i)), which represents the number of ways to choose i positions out of n - i for the 2-steps. The calculation is done in a way to avoid overflow and factorial computation by using the product of ratios.
+
+Accumulate Ways: The result of the combinatorial calculation for each i is added to ways. This accumulates the total number of distinct ways to climb the stairs, considering all possible combinations of 1-step and 2-step moves.
+
+Return Total Ways: Finally, the function returns the total number of distinct ways to climb to the top of the staircase.
+         * 
+         */
         for (int i = 1; i <= n / 2; i++) {
             double sum = 1;
 
