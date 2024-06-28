@@ -52,10 +52,8 @@ public:
             dig(root, 0, minDepthValue);
         } else if(!root->left) {
             dig(root->right, 1, minDepthValue);
-        } else if(!root->right) {
-            dig(root->left, 1, minDepthValue);
         } else {
-            return 1;
+            dig(root->left, 1, minDepthValue);
         }
 
         return minDepthValue;
