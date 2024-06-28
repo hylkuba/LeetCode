@@ -50,21 +50,19 @@ struct ListNode {
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        if(!head) {
-            return false;
-        }
+        ListNode* fast = head;
+        ListNode* slow = head;
 
-        std::set<ListNode*> q;
-        while(head != nullptr) {
-            if(q.find(head) == q.end()) {
-                q.insert(head);
-                head = head->next;
-            } else {
+        while (fast != nullptr && fast->next != nullptr) {
+            fast = fast->next->next;
+            slow = slow->next;
+
+            if (fast == slow) {
                 return true;
             }
         }
 
-        return false;
+        return false;        
     }
 };
 
