@@ -55,12 +55,11 @@ public:
                 curr = 'A' + digit - 1;
             }
 
-            result += curr;
+            // Add it in reverse order to optimize the time complexity of reversing string
+            result = curr + result;
 
             columnNumber /= 26;
         }
-
-        std::reverse(result.begin(), result.end());
 
         return result;
     }
