@@ -9,35 +9,22 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        if(head == nullptr) {
-            return head;
-        }
 
-        std::stack<ListNode*> order;
-        
-        // Add nodes to stack
-        while(head != nullptr) {
-            order.push(head);
-            head = head->next;
-        }
-
-        head = order.top();
-        order.pop();
-
+        ListNode* prev = NULL;
         ListNode* curr = head;
 
-        while(!order.empty()) {
-            curr->next = order.top();
-            order.pop();
-            curr = curr->next;
+        while(curr != NULL){
+            ListNode* forward = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = forward;
+            
         }
-
-        curr->next = nullptr;
-
-        return head;
+        return prev;
     }
 };
 
