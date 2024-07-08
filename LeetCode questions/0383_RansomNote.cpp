@@ -34,30 +34,15 @@ ransomNote and magazine consist of lowercase English letters.
 class Solution {
 public:
     bool canConstruct(std::string ransomNote, std::string magazine) {
-        if(ransomNote.size() > magazine.size()) return false;
+        std::vector<int> alphabet(26, 0);
         
-        std::vector<char> r;
-        std::vector<char> m;
-
-        for(size_t i = 0; i < ransomNote.size(); i++) {
-            r.push_back(ransomNote[i]);
+        for (char c : ransomNote) {
+            size_t i = magazine.find(c, alphabet[c - 'a']);
+            if (i == std::string::npos) return false;
+            alphabet[c - 'a'] = i + 1;
         }
 
-        for(size_t i = 0; i < magazine.size(); i++) {
-            m.push_back(magazine[i]);
-        }
-
-        std::sort(r.begin(), r.end());
-        std::sort(m.begin(), m.end());
-
-
-        size_t j = 0;
-        for(size_t i = 0; i < m.size(); i++) {
-            if(j >= r.size()) return true;
-            if(r[j] == m[i]) j++;
-        }
-
-        return j == r.size();
+        return true;
     }
 };
 
