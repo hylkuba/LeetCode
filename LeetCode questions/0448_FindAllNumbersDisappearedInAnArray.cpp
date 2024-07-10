@@ -40,8 +40,8 @@ public:
         }
 
         std::vector<int> res;
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i]-1 != i) res.push_back(i+1);
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] - 1 != i) res.push_back(i + 1);
         }
         return res;
     }
