@@ -59,12 +59,13 @@ s and words[i] consist of lowercase English letters.
 
 class Solution {
 public:
-    std::vector<int> findSubstring(std::string s, std::vector<std::string>& words) {
+    std::vector<int> findSubstring(std::string s, std::vector<std::string>& words) {    
+        
         std::vector<int> indices;
         if (s.empty() || words.empty()) return indices;
 
         int wordLength = words[0].size();
-        int totalLength = wordLength * words.size();    // All words are of same length
+        int totalLength = wordLength * words.size();
         if (s.size() < totalLength) return indices;
 
         // Build the word count map
@@ -73,11 +74,12 @@ public:
             ++wordCount[word];
         }
 
-        // Slide over the string in steps of wordLength
-        for (int i = 0; i < wordLength; ++i) {
-            int left = i, count = 0;
+        // Slide over the string in steps of wordLength (This allows all possible matching strings)
+        for (int startIndex = 0; startIndex < wordLength; ++startIndex) {
+            int left = startIndex, count = 0;
             std::unordered_map<std::string, int> seenWords;
-            for (int j = i; j <= s.size() - wordLength; j += wordLength) {
+
+            for (int j = startIndex; j <= s.size() - wordLength; j += wordLength) {
                 std::string word = s.substr(j, wordLength);
                 // If the word is part of words
                 if (wordCount.find(word) != wordCount.end()) {
@@ -110,3 +112,15 @@ public:
         return indices;
     }
 };
+
+int main(void) {
+    Solution s;
+    std::string str = "barfoothefoobarman";
+    std::vector<std::string> words = {"foo", "bar"};
+    std::vector<int> indices = s.findSubstring(str, words);
+    for (const auto& index : indices) {
+        std::cout << index << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
