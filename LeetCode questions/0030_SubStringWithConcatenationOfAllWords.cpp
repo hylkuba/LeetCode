@@ -64,7 +64,7 @@ public:
         if (s.empty() || words.empty()) return indices;
 
         int wordLength = words[0].size();
-        int totalLength = wordLength * words.size();
+        int totalLength = wordLength * words.size();    // All words are of same length
         if (s.size() < totalLength) return indices;
 
         // Build the word count map
