@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <set>
 
 /**
  * @brief Given a string s and an integer k, return the maximum number of vowel letters in any substring of s with length k.
@@ -35,7 +34,6 @@ s consists of lowercase English letters.
  */
 
 class Solution {
-    std::set<char> vowels = {'A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u'};
 public:
     int maxVowels(std::string s, int k) {
         // Initialize prevMax
@@ -63,7 +61,7 @@ public:
 
 private:
     bool isVowel(char c) {
-        return vowels.find(c) != vowels.end();
+        return c =='a' || c =='e' || c =='i' || c =='o' || c =='u';
     }
 };
 
