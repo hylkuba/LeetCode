@@ -39,43 +39,33 @@ public:
         int longest = 0;
         int size = nums.size();
 
-        // Holds indexes where we flipped
         std::queue<int> q;
 
-        while(right < size) {
-            while(right < size && nums[right] == 1) {
-                right++;
-            }
-
-            if(right < size && nums[right] == 0 && flipped < k) {
+        while (right < size) {
+            if (nums[right] == 0) {
                 q.push(right);
-                flipped++;
-                right++;
-            } else {
-                if(!q.empty()) {
-                    longest = std::max(longest, right - left);
+                if (flipped < k) {
+                    flipped++;
                 } else {
-                    longest = std::max(longest, right - left - 1);
+                    longest = std::max(longest, right - left);
+                    if (!q.empty()) {
+                        left = q.front() + 1; // Move left to just beyond the oldest flipped 0
+                        q.pop();
+                    }
                 }
-
-                if(!q.empty()) {
-                    left = q.front();
-                    q.pop();
-                }
-                left++;
-                q.push(right);
-                right++;
             }
+            // Update longest for every iteration to include sequences of 1s
+            longest = std::max(longest, right - left + 1);
+            right++;
         }
 
-        // Return the longest consecutive ones, or the distance between the end of vector and left index
-        return !q.empty() ? std::max(longest, right - left) : std::max(longest, right - left - 1);
+        return longest;
     }
 };
 
 int main(void) {
     Solution solution;
-    std::vector<int> nums = {1,1,1,0,0,0,1,1,1,1,0};
+    std::vector<int> nums = {0,0,1,1,1,0,0};
     int k = 2;
     std::cout << solution.longestOnes(nums, k) << std::endl;
     return 0;
