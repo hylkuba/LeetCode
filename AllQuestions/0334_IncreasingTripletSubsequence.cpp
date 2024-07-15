@@ -41,7 +41,7 @@ public:
 
         for(int i = 0; i < nums.size(); i++) {
             if(nums[i] <= first_small) {
-                first_small=nums[i];
+                first_small = nums[i];
             } else if(nums[i] <= second_small) {
                 second_small = nums[i];
             } else {
