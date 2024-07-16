@@ -1,6 +1,6 @@
 #include <string>
-#include <iostream>
 #include <stack>
+#include <iostream>
 
 /**
  * @brief Given an encoded string, return its decoded string.
