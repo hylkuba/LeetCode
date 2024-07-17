@@ -1,5 +1,3 @@
-#include <queue>
-
 struct ListNode {
     int val;
     ListNode *next;
@@ -16,7 +14,7 @@ public:
 
         ListNode* odd = head;           // Initialize odd pointer to the head of the list
         ListNode* even = head->next;    // Initialize even pointer to the second node
-        ListNode* evenRoot = even;          // Store the start of the even list
+        ListNode* evenRoot = even;      // Store the start of the even list
 
         while (even != nullptr && even->next != nullptr) {
             // Update odd and even pointers to skip one node each
