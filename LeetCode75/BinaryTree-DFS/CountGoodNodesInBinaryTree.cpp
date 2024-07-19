@@ -13,23 +13,26 @@ struct TreeNode {
 class Solution {
 public:
     int goodNodes(TreeNode* root) {
-        std::set<int> path;
+        if(!root) return 0;
 
-        return dfs(root, path);
+        int max = root->val;
+        int ans = 0;
+
+        dfs(root, max, ans);
+
+        return ans;
     }
 
 private:
-    int dfs(TreeNode* root, std::set<int> path) {
-        if(!root) return 0;
+    void dfs(TreeNode* root, int max, int &ans) {
+        if(!root) return;
 
-        int luckyNumber = 0;
-
-        auto it = path.upper_bound(root->val);
-        if(it == path.end()) {
-            path.insert(root->val);
-            luckyNumber = 1;
+        if(root->val >= max) {
+            max = root->val;
+            ans++;
         }
 
-        return luckyNumber + dfs(root->left, path) + dfs(root->right, path);
+        dfs(root->left, max, ans);
+        dfs(root->right, max, ans);
     }
 };
