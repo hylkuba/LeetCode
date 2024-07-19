@@ -37,21 +37,9 @@ struct TreeNode {
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-        int maxDepthvalue = 0;
-        depth(root, 0, maxDepthvalue);
-        return maxDepthvalue;
-    }
+        if(!root) return 0;
 
-private:
-    void depth(TreeNode* root, int currentDepth, int &maxDepth) {
-        if (!root) {
-            maxDepth = std::max(maxDepth, currentDepth);
-            return;
-        }
-        
-        currentDepth++;
-        depth(root->left, currentDepth, maxDepth);
-        depth(root->right, currentDepth, maxDepth);
+        return 1 + std::max(maxDepth(root->left), maxDepth(root->right));
     }
 };
 
