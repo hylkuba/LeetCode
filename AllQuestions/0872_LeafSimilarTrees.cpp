@@ -1,5 +1,5 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 
 /**
  * @brief Consider all the leaves of a binary tree, from left to right order, the values of those leaves form a leaf value sequence.
