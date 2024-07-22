@@ -53,10 +53,10 @@ public:
         while(!q.empty()) {
             int size = q.size();
             int currSum = 0; 
-            for(int i=0; i<size; i++) {
+            for(int i = 0; i < size; i++) {
                 currSum += q.front()->val;
-                if(q.front()->left)q.push(q.front()->left);
-                if(q.front()->right)q.push(q.front()->right);
+                if(q.front()->left) q.push(q.front()->left);
+                if(q.front()->right) q.push(q.front()->right);
                 q.pop();
             }
             if(currSum > maxSum) {
