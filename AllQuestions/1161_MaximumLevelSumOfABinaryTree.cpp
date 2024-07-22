@@ -43,35 +43,30 @@ struct TreeNode {
 class Solution {
 public:
     int maxLevelSum(TreeNode* root) {
-        int max = INT_MIN;
-        int lowestLvl = INT_MAX;
+        std::queue<TreeNode*> q;
+        q.push(root);
 
-        std::queue<std::pair<int, TreeNode*>> q;
-        q.push({1, root});
+        int lowestLevel = 1;
+        int maxSum = INT_MIN;
+        int level = 1;
 
         while(!q.empty()) {
             int size = q.size();
-            int currLevel = q.front().first;
-            int sum = 0;
-
-            for(int i = 0; i < size; i++) {
-                TreeNode* curr = q.front().second;
-                int level = q.front().first;
+            int currSum = 0; 
+            for(int i=0; i<size; i++) {
+                currSum += q.front()->val;
+                if(q.front()->left)q.push(q.front()->left);
+                if(q.front()->right)q.push(q.front()->right);
                 q.pop();
-
-                sum += curr->val;
-
-                if(curr->left) q.push({level + 1, curr->left});
-                if(curr->right) q.push({level + 1, curr->right});
             }
-
-            if(sum > max) {
-                max = sum;
-                lowestLvl = currLevel;
+            if(currSum > maxSum) {
+                maxSum = currSum;
+                lowestLevel = level;
             }
+            level++;
         }
 
-        return lowestLvl;
+        return lowestLevel;
     }
 };
 
