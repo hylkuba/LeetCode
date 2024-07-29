@@ -7,19 +7,21 @@ public:
         // Sort the potions
         std::sort(potions.begin(), potions.end());
 
-        int n = potions.size();
-        std::vector<int> pairs;
+        int n = spells.size();
+        int m = potions.size();
 
-        for (int i = 0; i < spells.size(); i++) {
+        std::vector<int> pairs(n);
+
+        for (int i = 0; i < n; i++) {
             long long temp = spells[i];
 
             // If the largest product is less than success, no pairs are successful
-            if (temp * potions[n - 1] < success) {
-                pairs.push_back(0);
+            if (temp * potions[m - 1] < success) {
+                pairs[i] = 0;
                 continue;
             }
 
-            int lower = 0, higher = n - 1;
+            int lower = 0, higher = m - 1;
 
             // Binary search to find the first index where the product is >= success
             while (lower < higher) {
@@ -32,7 +34,7 @@ public:
                 }
             }
 
-            pairs.push_back(n - lower);
+            pairs[i] = m - lower;
         }
 
         return pairs;
