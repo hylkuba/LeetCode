@@ -43,16 +43,29 @@ queries[i].length == 2
 class Solution {
 public:
     std::vector<int> xorQueries(std::vector<int>& arr, std::vector<std::vector<int>>& queries) {
-        std::vector<int> result;
-        for(auto &it : queries) {
-            unsigned int xored = 0;
-            for(unsigned int i = it[0]; i <= it[1]; i++) {
-                xored ^= arr[i];
-            }
-            result.push_back(xored);
+        int n = arr.size();
+        std::vector<int> pre(n);
+        pre[0] = arr[0];
+        
+        // Compute prefix XOR array
+        for (int i = 1; i < n; ++i) {
+            pre[i] = pre[i - 1] ^ arr[i];
         }
-
-        return result;
+        
+        std::vector<int> res(queries.size());
+        
+        // Answer each query
+        for (int k = 0; k < queries.size(); ++k) {
+            int i = queries[k][0];
+            int j = queries[k][1];
+            if (i == 0) {
+                res[k] = pre[j];
+            } else {
+                res[k] = pre[j] ^ pre[i - 1];
+            }
+        }
+        
+        return res;
     }
 };
 
